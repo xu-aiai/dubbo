@@ -72,11 +72,11 @@ public abstract class AbstractReferenceConfig extends AbstractInterfaceConfig {
     protected Boolean sticky;
 
     /**
+     * TODO solve merge problem
      * Whether to support event in stub.
+     * = Constants.DEFAULT_STUB_EVENT;
      */
-    //TODO solve merge problem
-    protected Boolean stubevent;//= Constants.DEFAULT_STUB_EVENT;
-
+    protected Boolean stubevent;
 
     /**
      * declares which app or service this interface belongs to
@@ -115,6 +115,7 @@ public abstract class AbstractReferenceConfig extends AbstractInterfaceConfig {
 
     /**
      * Only the service provider of the specified protocol is invoked, and other protocols are ignored.
+     * 只调用指定协议的服务提供方，其它协议忽略。
      */
     protected String protocol;
 

@@ -36,32 +36,38 @@ public abstract class AbstractMethodConfig extends AbstractConfig {
 
     /**
      * The timeout for remote invocation in milliseconds
+     * 服务方法调用超时时间
      */
     protected Integer timeout;
 
     /**
      * The retry times
+     * 远程服务调用重试次数，不包括第一次调用，不需要重试请设为0
      */
     protected Integer retries;
 
     /**
      * max concurrent invocations
+     * 每服务消费者每服务每方法最大并发调用数
      */
     protected Integer actives;
 
     /**
      * The load balance
+     * 负载均衡策略，默认值是随机
      */
     protected String loadbalance;
 
     /**
      * Whether to async
      * note that: it is an unreliable asynchronous that ignores return values and does not block threads.
+     * 是否缺省异步执行，不可靠异步，只是忽略返回值，不阻塞执行线程
      */
     protected Boolean async;
 
     /**
      * Whether to ack async-sent
+     * 异步调用时，标记sent=true时，表示网络已发出数据
      */
     protected Boolean sent;
 
@@ -70,8 +76,32 @@ public abstract class AbstractMethodConfig extends AbstractConfig {
      * <p>
      * note that: the mock doesn't support on the provider side，and the mock is executed when a non-business exception
      * occurs after a remote service call
+     * 服务接口调用失败 Mock 实现类名，该 Mock 类必须有一个无参构造函数，
+     * 与 Local 的区别在于，Local 总是被执行，而 Mock 只在出现非业务异常(比如超时，网络异常等)时执行，
+     * Local 在远程调用之前执行，Mock 在远程调用后执行。
+     *
      */
     protected String mock;
+
+    /**
+     * Cache the return result with the call parameter as key, the following options are available: lru, threadlocal,
+     * jcache, etc.
+     * 以调用参数为key，缓存返回结果，可选：lru, threadlocal, jcache等
+     */
+    protected String cache;
+
+    /**
+     * Whether JSR303 standard annotation validation is enabled or not, if enabled, annotations on method parameters will
+     * be validated
+     * 是否启用JSR303标准注解验证，如果启用，将对方法参数上的注解进行校验
+     */
+    protected String validation;
+
+    /**
+     * Forks for forking cluster
+     * 并行调用多个服务器，只要一个成功即返回。通常用于实时性要求较高的读操作，但需要浪费更多服务资源。可通过 forks="2" 来设置最大并行数。
+     */
+    protected Integer forks;
 
     /**
      * Merger
@@ -79,26 +109,9 @@ public abstract class AbstractMethodConfig extends AbstractConfig {
     protected String merger;
 
     /**
-     * Cache the return result with the call parameter as key, the following options are available: lru, threadlocal,
-     * jcache, etc.
-     */
-    protected String cache;
-
-    /**
-     * Whether JSR303 standard annotation validation is enabled or not, if enabled, annotations on method parameters will
-     * be validated
-     */
-    protected String validation;
-
-    /**
      * The customized parameters
      */
     protected Map<String, String> parameters;
-
-    /**
-     * Forks for forking cluster
-     */
-    protected Integer forks;
 
     public AbstractMethodConfig() {
         super();

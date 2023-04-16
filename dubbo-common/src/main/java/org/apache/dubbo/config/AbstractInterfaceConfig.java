@@ -72,11 +72,6 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     protected String interfaceName;
 
     /**
-     * The classLoader of interface belong to
-     */
-    protected transient ClassLoader interfaceClassLoader;
-
-    /**
      * The remote service version the customer/provider side will reference
      */
     protected String version;
@@ -86,63 +81,68 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
      */
     protected String group;
 
-    protected ServiceMetadata serviceMetadata;
     /**
      * Local impl class name for the service interface
+     * 服务接口的本地实现类名
      */
     protected String local;
 
     /**
      * Local stub class name for the service interface
+     * 服务接口的本地存根实现类名
      */
     protected String stub;
 
     /**
-     * Service monitor
-     */
-    protected MonitorConfig monitor;
-
-    /**
      * Strategies for generating dynamic agents，there are two strategies can be chosen: jdk and javassist
+     * 生成动态代理方式，可选：jdk/javassist
      */
     protected String proxy;
 
     /**
      * Cluster type
+     * 集群方式，可选：failover/failfast/failsafe/failback/forking/available/mergeable(2.1.0以上版本)/broadcast(2.1.0以上版本)/zone-aware(2.7.5以上版本)
      */
     protected String cluster;
 
     /**
      * The {@code Filter} when the provider side exposed a service or the customer side references a remote service used,
      * if there are more than one, you can use commas to separate them
+     * 服务消费方远程调用过程拦截器名称，多个名称用逗号分隔
      */
     protected String filter;
 
     /**
      * The Listener when the provider side exposes a service or the customer side references a remote service used
      * if there are more than one, you can use commas to separate them
+     * 服务消费方引用服务监听器名称，多个名称用逗号分隔
      */
     protected String listener;
 
     /**
      * The owner of the service providers
+     * 调用服务负责人，用于服务治理，请填写负责人公司邮箱前缀
      */
     protected String owner;
 
     /**
      * Connection limits, 0 means shared connection, otherwise it defines the connections delegated to the current service
+     * 对每个提供者的最大连接数，rmi、http、hessian等短连接协议表示限制连接数，dubbo等长连接协表示建立的长连接个数
      */
     protected Integer connections;
 
     /**
      * The layer of service providers
+     * 服务提供者所在的分层。如：biz、dao、intl:web、china:acton。
      */
     protected String layer;
 
     /**
-     * The application info
+     * The classLoader of interface belong to
      */
-    protected ApplicationConfig application;
+    protected transient ClassLoader interfaceClassLoader;
+
+    protected ServiceMetadata serviceMetadata;
 
     /**
      * The module info
@@ -150,10 +150,9 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
     protected ModuleConfig module;
 
     /**
-     * The registry list the service will register to
-     * Also see {@link #registryIds}, only one of them will work.
+     * The application info
      */
-    protected List<RegistryConfig> registries;
+    protected ApplicationConfig application;
 
     /**
      * The method configuration
@@ -166,28 +165,35 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
      */
     protected String registryIds;
 
-    // connection events
-    protected String onconnect;
-
     /**
-     * Disconnection events
+     * The registry list the service will register to
+     * Also see {@link #registryIds}, only one of them will work.
      */
-    protected String ondisconnect;
+    protected List<RegistryConfig> registries;
+
+    protected ConfigCenterConfig configCenter;
 
     /**
      * The metadata report configuration
      */
     protected MetadataReportConfig metadataReportConfig;
 
-    protected ConfigCenterConfig configCenter;
+    /**
+     * Service monitor
+     */
+    protected MonitorConfig monitor;
 
-    // callback limits
+    /**
+     * callback limits
+     */
     private Integer callbacks;
-    // the scope for referring/exporting a service, if it's local, it means searching in current JVM only.
+
+    /**
+     * the scope for referring/exporting a service, if it's local, it means searching in current JVM only.
+     */
     private String scope;
 
     protected String tag;
-
     private Boolean auth;
 
     /*Indicates to create separate instances or not for services/references that have the same serviceKey.
@@ -197,6 +203,14 @@ public abstract class AbstractInterfaceConfig extends AbstractMethodConfig {
      * Call ReferenceConfig.get() directly will not check this attribute.
      */
     private Boolean singleton;
+
+    // connection events
+    protected String onconnect;
+
+    /**
+     * Disconnection events
+     */
+    protected String ondisconnect;
 
     public AbstractInterfaceConfig() {
     }

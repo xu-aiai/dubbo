@@ -59,7 +59,6 @@ public abstract class ReferenceConfigBase<T> extends AbstractReferenceConfig {
      */
     protected Class<?> interfaceClass;
 
-
     /**
      * The url for peer-to-peer invocation
      */
